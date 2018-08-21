@@ -1,4 +1,4 @@
-##2.0.4
+## 2.0.4
 **New:**
 
 - Excel importing. For more information, visit the Wiki.
@@ -14,7 +14,7 @@
 **Issues:**
 
 
-##2.0.3
+## 2.0.3
 **New:**
 
 - Update to Yari-Core 0.3.4. (credit @rennemannt)
