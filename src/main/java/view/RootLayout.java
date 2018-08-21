@@ -289,7 +289,7 @@ public class RootLayout extends BorderPane {
 
     }
 
-    public boolean importExcel(File file) {
+    boolean importExcel(File file) {
         boolean success = true;
         loadingContent.setValue(true);
         controlsLock.setValue(true);
