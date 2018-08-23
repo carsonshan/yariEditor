@@ -61,6 +61,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import objects.KeyboardShortcut;
 import objects.ToolView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yari.core.table.DecisionTable;
 import settings.SettingsDialog;
 import utilities.*;
@@ -78,6 +80,7 @@ import java.util.Optional;
 
 public class RootLayout extends BorderPane {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(RootLayout.class);
     private final ValidationService validationService = ValidationService.getService();
     private final DecisionTableService decisionTableService = DecisionTableService.getService();
     private final ObservableList<MenuOption> menuOptions = FXCollections.observableArrayList();
@@ -125,7 +128,7 @@ public class RootLayout extends BorderPane {
         toastBar.setPrefWidth(350);
 
         //initial (minimal loading required)
-        prepareOptions();
+        prepareTools();
         prepareHeader();
         setCenter(mainPanel);
 
@@ -333,7 +336,7 @@ public class RootLayout extends BorderPane {
     }
 
 
-    private void prepareOptions() {
+    private void prepareTools() {
         MenuOption actionsTool = new MenuOption("Actions", "mdTab-actions");
         actionsTool.disableProperty().bind(controlsLock);
         Tooltip.install(actionsTool, new Tooltip("Open the Actions Editor"));
@@ -364,10 +367,16 @@ public class RootLayout extends BorderPane {
         javaCodeTool.setOnSelectAction(() -> showView(ToolView.JAVA_CODE));
         javaCodeTool.setOnMouseClicked(me -> selectTab("java code"));
 
-        menuOptions.addAll(actionsTool, conditionsTool, rowsTool, generalTool, javaCodeTool);
+        MenuOption testingTool = new MenuOption("Testing", "mdTab-testing");
+        testingTool.disableProperty().bind(controlsLock);
+        Tooltip.install(testingTool, new Tooltip("Test Decision Functionality"));
+        testingTool.setOnSelectAction(() -> showView(ToolView.TESTING));
+        testingTool.setOnMouseClicked(me -> selectTab("testing"));
+
+        menuOptions.addAll(actionsTool, conditionsTool, rowsTool, generalTool, javaCodeTool, testingTool);
 
         VBox optionsContainer = new VBox();
-        optionsContainer.getChildren().setAll(actionsTool, conditionsTool, rowsTool, generalTool, javaCodeTool);
+        optionsContainer.getChildren().setAll(actionsTool, conditionsTool, rowsTool, generalTool, javaCodeTool, testingTool);
 
         optionsContainer.setPadding(new Insets(25, 0, 0, 0));
         AnchorPane.setTopAnchor(optionsContainer, 0D);
@@ -478,8 +487,12 @@ public class RootLayout extends BorderPane {
                 case JAVA_CODE:
                     displayPane = new JavaCodeToolView();
                     break;
+                case TESTING:
+                    displayPane = new TestingView();
+                    break;
                 default:
                     displayPane = new StackPane(new Label("An error occurred. Please contact the developer."));
+                    LOGGER.error("Tried to access a Tool View which did not have a view!");
                     break;
             }
             FXUtil.runOnFXThread(() -> {

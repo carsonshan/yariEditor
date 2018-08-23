@@ -12,6 +12,7 @@ package objects;
 
 import view.GeneralToolView;
 import view.JavaCodeToolView;
+import view.TestingView;
 import view.editors.ActionsToolView;
 import view.editors.ConditionsToolView;
 import view.editors.RowsToolView;
@@ -25,7 +26,8 @@ public enum ToolView {
     JAVA_CODE(JavaCodeToolView.class),
     ACTIONS(ActionsToolView.class),
     CONDITIONS(ConditionsToolView.class),
-    ROWS(RowsToolView.class);
+    ROWS(RowsToolView.class),
+    TESTING(TestingView.class);
 
     private Class viewClass;
 
