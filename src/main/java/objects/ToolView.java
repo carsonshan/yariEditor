@@ -12,7 +12,7 @@ package objects;
 
 import view.GeneralToolView;
 import view.JavaCodeToolView;
-import view.TestingView;
+import testing.TestingView;
 import view.editors.ActionsToolView;
 import view.editors.ConditionsToolView;
 import view.editors.RowsToolView;
